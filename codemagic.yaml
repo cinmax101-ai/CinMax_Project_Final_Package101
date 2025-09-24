@@ -1,19 +1,17 @@
 workflows:
-  build_android_debug:
-    name: Build Android Debug
+  build-android:
+    name: Build Android APK
     max_build_duration: 60
     environment:
-      vars:
-        GRADLE_OPTS: "-Xmx2048m"
-      java: 17
+      android_sdk: latest
+      ndk: r21d
     scripts:
-      - name: Ensure gradlew executable
-        script: chmod +x ./gradlew || true
-      - name: Build Debug APK
-        script: ./gradlew assembleDebug || true
-      - name: List outputs
+      - name: Set up Java
         script: |
-          echo "Listing app/build/outputs:"
-          ls -R app/build/outputs || true
+          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+          export PATH=$JAVA_HOME/bin:$PATH
+      - name: Build Android APK
+        script: |
+          ./gradlew build
     artifacts:
-      - app/build/outputs/apk/debug/*.apk
+      - app/build/outputs/apk/**/*.apk
