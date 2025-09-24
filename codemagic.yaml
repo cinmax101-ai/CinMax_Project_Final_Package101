@@ -1,0 +1,19 @@
+workflows:
+  build_android_debug:
+    name: Build Android Debug
+    max_build_duration: 60
+    environment:
+      vars:
+        GRADLE_OPTS: "-Xmx2048m"
+      java: 17
+    scripts:
+      - name: Ensure gradlew executable
+        script: chmod +x ./gradlew || true
+      - name: Build Debug APK
+        script: ./gradlew assembleDebug || true
+      - name: List outputs
+        script: |
+          echo "Listing app/build/outputs:"
+          ls -R app/build/outputs || true
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
