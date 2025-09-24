@@ -3,8 +3,9 @@ workflows:
     name: Build Android APK
     max_build_duration: 60
     environment:
-      android_sdk: latest
       ndk: r21d
+      vars:
+        ANDROID_SDK_VERSION: "33.0.0"  # تحديد إصدار SDK يدويًا (يمكن تغييره)
     scripts:
       - name: Set up Java
         script: |
